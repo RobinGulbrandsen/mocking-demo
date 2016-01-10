@@ -11,21 +11,25 @@ import no.rg.repository.UserRepository;
  */
 public class OrderController {
     
-    private UserRepository userRepository;
-    private OrderRepository orderRepository;
+    private final UserRepository userRepository;
+    private final OrderRepository orderRepository;
     
     /**
-     * Constructor used in tests
+     * Constructor used for testing.
+     * 
+     * @param userRepository  {@link UserRepository}
+     * @param orderRepository {@link OrderRepository}
      */
-    public OrderController(UserRepository userRepository, OrderRepository orderRepository) {
+    public OrderController(final UserRepository userRepository, 
+                           final OrderRepository orderRepository) {
         this.userRepository = userRepository;
         this.orderRepository = orderRepository;
     }
     
     /**
      * Adds a new order, requires user to be logged in
-     * @param order to be persisted
-     * @return order with generated values
+     * @param order  {@link Order} to be persisted
+     * @return order {@link Order} with generated values
      */
     public Order addOrder(Order order) {
         User current = userRepository.getCurrentUser();

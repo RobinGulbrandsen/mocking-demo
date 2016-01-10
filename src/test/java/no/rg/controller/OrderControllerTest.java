@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import static org.mockito.Mockito.when;
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -33,7 +34,7 @@ public class OrderControllerTest {
     }
     
     @Test
-    public void addOrder_userIsLoggedIn_returnsANewOrder() {
+    public void addOrder_userIsLoggedIn_createsANewOrder() {
         //Arrange
         when(userRepository.getCurrentUser()).thenReturn(new User());
         Order order = new Order("new order");
@@ -46,6 +47,19 @@ public class OrderControllerTest {
         assertEquals(order, newOrder);
     }
     
+    @Test
+    public void addOrder_userIsLoggedIn_createsANewOrderVerify() {
+        //Arrange
+        when(userRepository.getCurrentUser()).thenReturn(new User());
+        Order order = new Order("new order");
+        when(orderRepository.create(order)).thenReturn(order);
+                
+        //Act
+        Order newOrder = orderController.addOrder(order);
+        
+        //Assert
+        Mockito.verify(orderRepository).create(order);
+    }
     
     @Test(expected = RuntimeException.class)
     public void addOrder_userIsNotLoggedIn_throwsException() {
